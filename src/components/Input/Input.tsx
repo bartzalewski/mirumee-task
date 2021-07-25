@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { Dispatch, FC, SetStateAction } from 'react'
 import search from 'images/search.svg'
 
 import { Container, Label, TextInput, SearchIcon } from './Input.style'
@@ -7,9 +7,9 @@ interface Props {
   label: string
   placeholder: string
   isSearch: boolean
-  setIsFocused: any
-  setSearch: any
-  setTitle: any
+  setIsFocused: Dispatch<SetStateAction<boolean>> | null
+  setSearch: Dispatch<SetStateAction<string>> | null
+  setTitle: Dispatch<SetStateAction<string>> | null
 }
 
 const Input: FC<Props> = ({
@@ -28,11 +28,13 @@ const Input: FC<Props> = ({
         placeholder={placeholder}
         onChange={
           isSearch
-            ? (e) => setSearch(e.target.value)
-            : (e) => setTitle(e.target.value)
+            ? (e) => setSearch && setSearch(e.target.value)
+            : (e) => setTitle && setTitle(e.target.value)
         }
         className={isSearch ? 'input__search' : ''}
-        onFocus={isSearch ? () => setIsFocused(true) : undefined}
+        onFocus={
+          isSearch ? () => setIsFocused && setIsFocused(true) : undefined
+        }
       />
       {isSearch && <SearchIcon src={search} alt="Search Icon" />}
     </Container>

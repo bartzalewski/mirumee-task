@@ -4,48 +4,27 @@ import axios from 'axios'
 import Box from 'components/Box/Box/Box'
 import Loader from 'components/Loader/Loader'
 
+import { Film } from 'types/Film'
+import { CustomFilm } from 'types/CustomFilm'
+
 import { Container, LoaderWrapper } from './BoxList.style'
 
-export default function BoxList() {
-  const [data, setData] = useState<any[]>([])
-  const [planetsData, setPlanetsData] = useState<any[]>([])
+type BoxListProps = {
+  customFilms: CustomFilm[]
+}
+
+export default function BoxList({ customFilms }: BoxListProps) {
+  const [data, setData] = useState<Film[]>([])
 
   const fetchData = () =>
     axios
       .get('https://swapi.dev/api/films/')
       .then((res) => setData(res.data.results))
 
-  const fetchPlanetsData = (id: number) =>
-    axios
-      .get(`https://swapi.dev/api/planets/${id}/`)
-      .then((res) => setPlanetsData(res.data))
-
   useEffect(() => {
     setTimeout(() => {
       fetchData()
     }, 500)
-  }, [])
-
-  // useEffect(() => {
-  //   const fetchPlanets = () => {
-  //     const planets = data.map((obj) => obj);
-  //     if (planets && planets.length > 0) {
-  //       const planet = planets[0].planets;
-  //       const output = planet
-  //         .map((url: string) => url.replace(/\D/g, ''))
-  //         .map((num: string) => +num);
-
-  //       const final = output.map((num: any) => fetchPlanetsData(num));
-  //       return final;
-  //     }
-  //   };
-
-  //   fetchPlanets();
-  // }, [data]);
-
-  useEffect(() => {
-    fetchPlanetsData(1)
-    console.log(planetsData)
   }, [])
 
   if (data.length === 0)
@@ -57,10 +36,17 @@ export default function BoxList() {
 
   return (
     <Container>
-      {data.map((obj) => {
+      {data.map((obj, idx) => {
         return (
-          <Box key={obj.title}>
-            <span>{obj.title}</span>
+          <Box key={idx + 1} id={idx + 1}>
+            <span>{obj?.title}</span>
+          </Box>
+        )
+      })}
+      {customFilms.map((obj, idx) => {
+        return (
+          <Box key={idx + 1} id={idx + 1} customFilmPlanets={obj?.planets}>
+            <span>{obj?.title}</span>
           </Box>
         )
       })}

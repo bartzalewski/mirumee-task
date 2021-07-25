@@ -1,5 +1,7 @@
 import { FC } from 'react'
 
+import { Planet } from 'types/Planet'
+
 import {
   Container,
   Heading,
@@ -14,42 +16,30 @@ import {
   Population,
 } from './Table.style'
 
-interface TableProps {
-  planetNames: any
-  rotationPeriods: any
-  oribtalPeriods: any
-  diameters: any
-  climates: any
-  surfaceWaters: any
-  populations: any
-}
+interface TableProps extends Planet {}
 
 const Table: FC<TableProps> = ({
-  planetNames,
-  rotationPeriods,
-  oribtalPeriods,
-  diameters,
-  climates,
-  surfaceWaters,
-  populations,
+  name,
+  rotation_period,
+  orbital_period,
+  diameter,
+  climate,
+  surface_water,
+  population,
 }) => {
   return (
     <Container>
       <Heading>
         <HeadingName>Planet Name</HeadingName>
         <HeadingName>Rotation period</HeadingName>
-        <HeadingName>Oribal period</HeadingName>
+        <HeadingName>Orbital period</HeadingName>
         <HeadingName>Diameter</HeadingName>
         <HeadingName>Climate</HeadingName>
         <HeadingName>Surface water</HeadingName>
         <HeadingName>Population</HeadingName>
       </Heading>
       <Data>
-        <PlanetName>
-          {planetNames.map((planetName: any) => (
-            <span>{planetName}</span>
-          ))}
-        </PlanetName>
+        <PlanetName>asd</PlanetName>
         <RotationPeriod>asd</RotationPeriod>
         <OrbitalPeriod>asd</OrbitalPeriod>
         <Diameter>asd</Diameter>

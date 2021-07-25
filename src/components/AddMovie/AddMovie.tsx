@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Dispatch, SetStateAction } from 'react'
 
 import Input from 'components/Input/Input'
 import BoxMovie from 'components/Box/BoxMovie/BoxMovie'
@@ -7,6 +7,9 @@ import Tags from 'components/Tags/Tags'
 
 import ArrowOpen from 'images/arrow-open.svg'
 import ArrowClose from 'images/arrow-close.svg'
+
+import { CustomFilm } from 'types/CustomFilm'
+import { Planet } from 'types/Planet'
 
 import {
   Container,
@@ -18,17 +21,25 @@ import {
   Warning,
 } from './AddMovie.style'
 
-export default function AddMovie() {
+type AddMovieProps = {
+  customFilms: CustomFilm[]
+  setCustomFilms: Dispatch<SetStateAction<CustomFilm[]>>
+}
+
+export default function AddMovie({
+  customFilms,
+  setCustomFilms,
+}: AddMovieProps) {
   const [open, setOpen] = useState<boolean>(false)
   const [isFocused, setIsFocused] = useState<boolean>(false)
-  const [data, setData] = useState<any[]>([])
+  const [planets, setPlanets] = useState<Planet[]>([])
   const [search, setSearch] = useState<string>('')
   const [title, setTitle] = useState<string>('')
-  const [tags, setTags] = useState<any[]>([])
+  const [tags, setTags] = useState<Planet[]>([])
 
   const warning = title && title[0] !== title[0].toUpperCase()
 
-  const selectedTags = (tags: any) => tags
+  const selectedTags = (tags: Planet[]) => tags
 
   useEffect(() => {
     const urls = [
@@ -40,7 +51,7 @@ export default function AddMovie() {
       'https://swapi.dev/api/planets/?page=6',
     ]
 
-    const getData = (url: any) =>
+    const getData = (url: string) =>
       fetch(url)
         .then((res) => res.json())
         .then((data) => Promise.resolve(data.results))
@@ -53,7 +64,7 @@ export default function AddMovie() {
         arrays[4],
         arrays[5]
       )
-      setData(planets)
+      setPlanets(planets)
     })
   }, [])
 
@@ -62,12 +73,12 @@ export default function AddMovie() {
       ...tags.filter((_: any, index: number) => index !== indexToRemove),
     ])!
 
-  const addTags = (tag: any) => {
+  const addTags = (tag: Planet) => {
     setTags([...tags, tag])
     selectedTags([...tags, tag])
   }
 
-  const items = data
+  const items = planets
     .filter((data) => {
       if (search == null) {
         return data
@@ -78,10 +89,18 @@ export default function AddMovie() {
       }
     })
     .map((data) => (
-      <Item onClick={() => addTags(data.name)} key={data.name}>
+      <Item onClick={() => addTags(data)} key={data.name}>
         {data.name}
       </Item>
     ))
+
+  const handleAddMovie = () => {
+    setCustomFilms([...customFilms, { title, planets: tags }])
+    setTitle('')
+    setSearch('')
+    setTags([])
+    setIsFocused(false)
+  }
 
   return (
     <>
@@ -103,8 +122,8 @@ export default function AddMovie() {
         <More>
           <MoreDetails>
             <Input
-              label="Movie tittle"
-              placeholder="Please enter the tittle of the movie"
+              label="Movie title"
+              placeholder="Please enter the title of the movie"
               isSearch={false}
               setSearch={null}
               setTitle={setTitle}
@@ -112,21 +131,19 @@ export default function AddMovie() {
             />
             {warning ? (
               <Warning>
-                Movie tittle name must start with a capital letter.
+                Movie title name must start with a capital letter.
               </Warning>
             ) : null}
             <Tags
-              selectedTags={selectedTags}
               tags={tags}
               setSearch={setSearch}
-              isSearch
               removeTags={removeTags}
               setIsFocused={setIsFocused}
             />
             {isFocused && (
               <List>{items && items.length > 0 ? items : 'Not found'}</List>
             )}
-            <Button />
+            <Button handleAddMovie={handleAddMovie} />
           </MoreDetails>
         </More>
       )}

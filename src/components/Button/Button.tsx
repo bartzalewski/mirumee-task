@@ -1,5 +1,9 @@
 import { Container } from './Button.style'
 
-export default function Button() {
-  return <Container>ADD MOVIE</Container>
+type ButtonProps = {
+  handleAddMovie: () => void
+}
+
+export default function Button({ handleAddMovie }: ButtonProps) {
+  return <Container onClick={handleAddMovie}>ADD MOVIE</Container>
 }

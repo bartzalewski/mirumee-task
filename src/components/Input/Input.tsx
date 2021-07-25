@@ -1,48 +1,15 @@
-import React, { FC } from 'react';
-import styled from 'styled-components';
-import search from '../../images/search.svg';
+import { FC } from 'react'
+import search from 'images/search.svg'
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-
-  &:nth-of-type(2) {
-    margin-top: 15px;
-  }
-`;
-const Label = styled.label`
-  font-size: 12px;
-  color: #555;
-`;
-const TextInput = styled.input`
-  outline: none;
-  border: none;
-  border-bottom: 1px solid #999;
-  padding: 10px 0;
-  font-size: 16px;
-  font-family: 'Barlow', sans-serif;
-
-  &.input__search {
-    &:focus {
-      background: #fdffe2;
-    }
-  }
-`;
-const SearchIcon = styled.img`
-  position: absolute;
-  right: 7px;
-  bottom: 5px;
-  cursor: pointer;
-`;
+import { Container, Label, TextInput, SearchIcon } from './Input.style'
 
 interface Props {
-  label: string;
-  placeholder: string;
-  isSearch: boolean;
-  setIsFocused: any;
-  setSearch: any;
-  setTitle: any;
+  label: string
+  placeholder: string
+  isSearch: boolean
+  setIsFocused: any
+  setSearch: any
+  setTitle: any
 }
 
 const Input: FC<Props> = ({
@@ -69,7 +36,7 @@ const Input: FC<Props> = ({
       />
       {isSearch && <SearchIcon src={search} alt="Search Icon" />}
     </Container>
-  );
-};
+  )
+}
 
-export default Input;
+export default Input

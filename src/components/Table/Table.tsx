@@ -1,37 +1,30 @@
-import React, { FC } from 'react';
-import styled from 'styled-components';
+import { FC } from 'react'
 
-const Container = styled.div``;
-const Heading = styled.div`
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-gap: 20px;
-`;
-const HeadingName = styled.div``;
-const Data = styled.div`
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-gap: 20px;
-`;
-const PlanetName = styled.span``;
-const RotationPeriod = styled.span``;
-const OrbitalPeriod = styled.span``;
-const Diameter = styled.span``;
-const Climate = styled.span``;
-const SurfaceWater = styled.span``;
-const Population = styled.span``;
+import {
+  Container,
+  Heading,
+  HeadingName,
+  Data,
+  PlanetName,
+  RotationPeriod,
+  OrbitalPeriod,
+  Diameter,
+  Climate,
+  SurfaceWater,
+  Population,
+} from './Table.style'
 
-interface Props {
-  planetNames: any;
-  rotationPeriods: any;
-  oribtalPeriods: any;
-  diameters: any;
-  climates: any;
-  surfaceWaters: any;
-  populations: any;
+interface TableProps {
+  planetNames: any
+  rotationPeriods: any
+  oribtalPeriods: any
+  diameters: any
+  climates: any
+  surfaceWaters: any
+  populations: any
 }
 
-const Table: FC<Props> = ({
+const Table: FC<TableProps> = ({
   planetNames,
   rotationPeriods,
   oribtalPeriods,
@@ -65,7 +58,7 @@ const Table: FC<Props> = ({
         <Population>asd</Population>
       </Data>
     </Container>
-  );
-};
+  )
+}
 
-export default Table;
+export default Table

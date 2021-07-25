@@ -1,64 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import Input from '../Input/Input';
-import BoxMovie from '../Box/BoxMovie';
-import ArrowOpen from '../../images/arrow-open.svg';
-import ArrowClose from '../../images/arrow-close.svg';
-import Button from '../Button/Button';
-import Tags from '../Tags/Tags';
+import { useState, useEffect } from 'react'
 
-const Container = styled.div`
-  padding: 0 30px;
-  width: 100%;
-`;
-const More = styled.div`
-  width: 100%;
-  padding: 0 30px;
-`;
-const MoreDetails = styled.div`
-  background: #fff;
-  padding: 30px 100px;
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-  display: flex;
-  flex-direction: column;
-`;
-const Image = styled.img`
-  cursor: pointer;
-  right: 15px;
-  position: absolute;
-`;
-const List = styled.ul`
-  list-style: none;
-  padding: 11px;
-  margin: 0;
-  box-shadow: 0px 4px 4px rgba(196, 196, 196, 0.5);
-  border: 1px solid #e5e5e5;
-  max-height: 114px;
-  overflow-y: scroll;
-`;
-const Item = styled.li`
-  cursor: pointer;
-  padding: 5px 0;
-`;
-const Warning = styled.div`
-  color: #ff1616;
-  border: 1px solid #ff1616;
-  padding: 10px;
-  font-size: 12px;
-`;
+import Input from 'components/Input/Input'
+import BoxMovie from 'components/Box/BoxMovie/BoxMovie'
+import Button from 'components/Button/Button'
+import Tags from 'components/Tags/Tags'
+
+import ArrowOpen from 'images/arrow-open.svg'
+import ArrowClose from 'images/arrow-close.svg'
+
+import {
+  Container,
+  More,
+  MoreDetails,
+  Image,
+  List,
+  Item,
+  Warning,
+} from './AddMovie.style'
 
 export default function AddMovie() {
-  const [open, setOpen] = useState<boolean>(false);
-  const [isFocused, setIsFocused] = useState<boolean>(false);
-  const [data, setData] = useState<any[]>([]);
-  const [search, setSearch] = useState<string>('');
-  const [title, setTitle] = useState<string>('');
-  const [tags, setTags] = useState<any[]>([]);
+  const [open, setOpen] = useState<boolean>(false)
+  const [isFocused, setIsFocused] = useState<boolean>(false)
+  const [data, setData] = useState<any[]>([])
+  const [search, setSearch] = useState<string>('')
+  const [title, setTitle] = useState<string>('')
+  const [tags, setTags] = useState<any[]>([])
 
-  const warning = title && title[0] !== title[0].toUpperCase();
+  const warning = title && title[0] !== title[0].toUpperCase()
 
-  const selectedTags = (tags: any) => tags;
+  const selectedTags = (tags: any) => tags
 
   useEffect(() => {
     const urls = [
@@ -68,12 +38,12 @@ export default function AddMovie() {
       'https://swapi.dev/api/planets/?page=4',
       'https://swapi.dev/api/planets/?page=5',
       'https://swapi.dev/api/planets/?page=6',
-    ];
+    ]
 
     const getData = (url: any) =>
       fetch(url)
         .then((res) => res.json())
-        .then((data) => Promise.resolve(data.results));
+        .then((data) => Promise.resolve(data.results))
 
     Promise.all(urls.map(getData)).then((arrays) => {
       const planets = arrays[0].concat(
@@ -82,36 +52,36 @@ export default function AddMovie() {
         arrays[3],
         arrays[4],
         arrays[5]
-      );
-      setData(planets);
-    });
-  }, []);
+      )
+      setData(planets)
+    })
+  }, [])
 
   const removeTags = (indexToRemove: number) =>
     setTags([
       ...tags.filter((_: any, index: number) => index !== indexToRemove),
-    ])!;
+    ])!
 
   const addTags = (tag: any) => {
-    setTags([...tags, tag]);
-    selectedTags([...tags, tag]);
-  };
+    setTags([...tags, tag])
+    selectedTags([...tags, tag])
+  }
 
   const items = data
     .filter((data) => {
       if (search == null) {
-        return data;
+        return data
       } else if (data.name.toLowerCase().includes(search.toLowerCase())) {
-        return data;
+        return data
       } else {
-        return null;
+        return null
       }
     })
     .map((data) => (
       <Item onClick={() => addTags(data.name)} key={data.name}>
         {data.name}
       </Item>
-    ));
+    ))
 
   return (
     <>
@@ -149,7 +119,7 @@ export default function AddMovie() {
               selectedTags={selectedTags}
               tags={tags}
               setSearch={setSearch}
-              isSearch={true}
+              isSearch
               removeTags={removeTags}
               setIsFocused={setIsFocused}
             />
@@ -161,5 +131,5 @@ export default function AddMovie() {
         </More>
       )}
     </>
-  );
+  )
 }
